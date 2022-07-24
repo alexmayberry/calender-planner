@@ -4,10 +4,6 @@
     let currentTime = '';
     let currentHour = '';
 
-
-    // test
-    console.log(moment().hour(11).minute(0).second(0));
-
     // Get current time every second and store it in CurrentTime
     setInterval(getCurrentTime, 1000);
 
@@ -17,9 +13,9 @@
         currentHour = 11;
     currentTimeEl.text(currentTime);
     }
-//
+
     let plannerEl = $('#planner'); 
-    // Store 'blockhour' and text content in blockhour object
+// Store 'blockhour' and text content in blockhour object
     let plannerObj = [
         {   
             blockHour: moment().hour(9).minute(0).second(0).format('H'),
@@ -71,8 +67,7 @@
     // Create elements for each blockhour
     let renderHourBlocks = () => {
         for (var i = 0; i < plannerObj.length; i++) {
-            // TODO THE ISSUE IS THE CONDITIONAL CHECK OF TIME
-            let hourBGColor = ''
+            let hourBGColor = '';
             // if 'time' is before 'blockhour' render blue
             if (currentHour < plannerObj[i].blockHour) {
                 console.log('after');
@@ -88,13 +83,12 @@
                 console.log('same');
                 hourBGColor = "bg-success";
             }
-
             plannerEl.append(
                 `
                 <div class=" input-group row">
                     <div class="col input-group-text text-center" type="text">${plannerObj[i].displayHour}</div>
                     <textarea class="col-8 border ${hourBGColor}" placeholder="Enter your appointment here" aria-label="Placceholder Event">${plannerObj[i].appointment}</textarea>
-                    <button class="col btn btn-success" type="button"><i class="fa-solid fa-floppy-disk"></i></button>
+                    <button class="col btn btn-success" type="button" data-hourIndex="${i + 9}" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i></button>
                   </div>
                 `
             )
@@ -102,10 +96,6 @@
     }
 
 
-
-    
-
-    
 
 
 
@@ -121,6 +111,14 @@ function excJS() {
 
     // Render blocks
     renderHourBlocks();
+
+    // Save added appointment to local storage
+    $('#saveBtn').click(function() {
+        console.log(this);
+        // save input from the corosponding text input to local storage... but how??
+    });
+
+
 
     //test 
     console.log(typeof plannerObj[0].blockHour);

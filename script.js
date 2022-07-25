@@ -9,8 +9,8 @@
 
     function getCurrentTime() {
         currentTime = moment();
-    //    currentHour = moment().format('H');
-        currentHour = 11;
+        currentHour = Number(moment().format('H'));
+    //    currentHour = Number('9');
     currentTimeEl.text(currentTime);
     }
 
@@ -66,21 +66,25 @@
 
     // Create elements for each blockhour
     let renderHourBlocks = () => {
-        for (var i = 0; i < plannerObj.length; i++) {
-            let hourBGColor = '';
+        let hourBGColor = '';
+        for (let i = 0; i < plannerObj.length; i++) {
+            // let hourBGColor = '';
             // if 'time' is before 'blockhour' render blue
             if (currentHour < plannerObj[i].blockHour) {
-                console.log('after');
-                hourBGColor = "bg-info";
-                console.log('after');
+
+                console.log('i is ' + i + ' current hour is ' + currentHour + ' hourBlock is ' + plannerObj[i].blockHour + ' future');
+
                 hourBGColor = "bg-info";
             }   // if 'time' is after 'blockhour' render grey 
             else if (currentHour > plannerObj[i].blockHour) {
-                console.log('before');
+
+                console.log('i is ' + i + ' current hour is ' + currentHour + ' hourBlock is ' + plannerObj[i].blockHour + ' past');
+
                 hourBGColor = "bg-secondary";
             }   // if 'time' is sameas 'blockhour' render green 
             else if (currentHour == plannerObj[i].blockHour) {
-                console.log('same');
+                console.log('i is ' + i + ' current hour is ' + currentHour + ' hourBlock is ' + plannerObj[i].blockHour + ' present');
+
                 hourBGColor = "bg-success";
             }
             plannerEl.append(
@@ -121,10 +125,14 @@ function excJS() {
 
 
     //test 
+    console.log(plannerObj[0].blockHour);
+    console.log(plannerObj[1].blockHour);
+    console.log(plannerObj[2].blockHour);
+    console.log(plannerObj[3].blockHour);
+    console.log(plannerObj[4].blockHour);
+    console.log(currentHour);
     console.log(typeof plannerObj[0].blockHour);
     console.log(typeof currentHour);
-    console.log(plannerObj[7].blockHour);
-    console.log(currentHour);
 
     
 

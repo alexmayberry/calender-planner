@@ -105,36 +105,28 @@ excJS = () => {
     // Display Current Time
     getCurrentTime();
 
-    // Render blocks
+    // Render hourBlocks from plannerObj
     renderHourBlocks();
 
     // Save added appointment to local storage
     $('#planner').on('click', 'button', function(event) {
         console.log("data-hour is " +  $(this).parent().attr('data-hour').val());
     
-            // FIXME fetch the data-hour attribute value from the clicked hour and store it in a variable. 
-            let editedHour = $(this).closest().attr('data-hour');
+            // FIXME store the data-hour attribute value from the clicked hour in a variable. 
+            let editedHour = $(this).parent().attr('data-hour').val();
 
-            let appointmentData = editedHour.sibling('textarea').value;
+            // store the input from the textarea to be saved
+            let appointmentData = editedHour.sibling('textarea').val();
             
             // Use the hour to create a key         
             let hourKey = 'hour-' + editedHour;
 
             // use the key and value to save text into local storage
             localStorage.setItem(hourKey, appointmentData);
+
             // also need to push the new appointmentData to the plannerObj and replace the old 
-    
+            plannerObj[editedHour].appointment = appointmentData
     });
-
-
-
-    //test 
-
-
-    
-
-
-
 }
 
 // Runs JS Once Document is loaded

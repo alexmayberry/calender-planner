@@ -73,25 +73,42 @@
 
                 console.log(plannerObj[i].blockHour + ' is future');
 
-                hourBGColor = "bg-info";
+                hourBGColor = "bg-future";
             }   // if 'time' is after 'blockhour' render grey 
             else if (currentHour > plannerObj[i].blockHour) {
 
                 console.log(plannerObj[i].blockHour + ' is past');
 
-                hourBGColor = "bg-secondary";
+                hourBGColor = "bg-past";
             }   // if 'time' is sameas 'blockhour' render green 
             else if (currentHour == plannerObj[i].blockHour) {
                 console.log(plannerObj[i].blockHour + ' is present');
 
-                hourBGColor = "bg-success";
+                hourBGColor = "bg-present";
             }
+
+            // make localStorage key
+            let key = i + 9;
+            key = 'hour-' + key
+            console.log(key);
+
+            // replace appointment data with appointment data from local storage
+            updateAppointment = () => {
+                plannerObj[i].appointment = localStorage.getItem(key);
+
+                if (plannerObj[i].appointment === null) {
+                    plannerObj[i].appointment = '';
+                };
+            }
+
+            updateAppointment();
+
             plannerEl.append(
                 `
-                <div class=" input-group row" data-hour="${i + 9}">
+                <div class=" input-group row">
                     <div class="col input-group-text text-center" type="text">${plannerObj[i].displayHour}</div>
-                    <textarea class="col-8 border ${hourBGColor}" placeholder="Enter your appointment here" aria-label="Placceholder Event">${plannerObj[i].appointment}</textarea>
-                    <button class="col btn btn-success" type="button" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i></button>
+                    <textarea class="col-8 border ${hourBGColor}" id='textarea${i}' placeholder="Enter your appointment here" aria-label="Placceholder Event">${plannerObj[i].appointment}</textarea>
+                    <button class="col btn btn-success" type="button" id="saveBtn${i}" data-hour="${i + 9}"><i class="fa-solid fa-floppy-disk"></i></button>
                   </div>
                 `
             )
@@ -110,22 +127,21 @@ excJS = () => {
 
     // Save added appointment to local storage
     $('#planner').on('click', 'button', function(event) {
-        console.log("data-hour is " +  $(this).parent().attr('data-hour').val());
     
-            // FIXME store the data-hour attribute value from the clicked hour in a variable. 
-            let editedHour = $(this).parent().attr('data-hour').val();
+            // store the data-hour attribute value from the clicked hour in a variable. 
+            let editedHour = $(event.target).attr('data-hour');
 
             // store the input from the textarea to be saved
-            let appointmentData = editedHour.sibling('textarea').val();
-            
+            let appointmentData = $(event.target).siblings('textarea').val();
+
             // Use the hour to create a key         
             let hourKey = 'hour-' + editedHour;
 
             // use the key and value to save text into local storage
             localStorage.setItem(hourKey, appointmentData);
 
-            // also need to push the new appointmentData to the plannerObj and replace the old 
-            plannerObj[editedHour].appointment = appointmentData
+            // also need to push the new appointmentData to the plannerObj and replace the old string
+            plannerObj[editedHour - 9].appointment = appointmentData
     });
 }
 

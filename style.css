@@ -69,3 +69,15 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.bg-past {
+  background-color:#d3d3d3;
+}
+
+.bg-present {
+  background-color: rgb(116, 200, 116);
+}
+
+.bg-future {
+  background-color: rgb(230, 107, 132);
+}
